@@ -1,0 +1,18 @@
+\begin{tikzpicture}
+\begin{axis}[
+  x = \threecolumnswidth/2,
+  hide axis,
+  clip = false,
+]
+\addplot[
+  line width = 8pt,
+  line cap = #1,
+]
+coordinates {(0, 0) (1, 0)};
+\addplot[
+  white,
+  line cap = #1,
+]
+coordinates {(0, 0) (1, 0)};
+\end{axis}
+\end{tikzpicture}

@@ -1,0 +1,19 @@
+\begin{tikzpicture}
+\begin{axis}[
+  % ‘cosh(1) - 1 = 0.543’, so we have a ratio of 4:1.
+  x = \threecolumnswidth/2 - 3pt,
+  y = \threecolumnswidth/4 - 3pt,
+  hide axis,
+  clip = false,
+  samples at = {-1, -0.52, 0, 0.52, 1},
+]
+\addplot[
+  gray,
+  smooth,
+  mark = #1,
+  mark options = {draw = blue, fill = yellow},
+  mark color = pink,
+]
+{(cosh(x) - 1) / cosh(1)};
+\end{axis}
+\end{tikzpicture}

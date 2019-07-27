@@ -1,0 +1,12 @@
+\begin{tikzpicture}
+\begin{axis}[
+  xticklabels = {},
+  yticklabels = {},
+]
+\addplot+[
+  #1,
+  samples at = {0,30,...,180},
+]
+{sin(x)};
+\end{axis}
+\end{tikzpicture}

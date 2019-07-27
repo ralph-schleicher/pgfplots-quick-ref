@@ -1,0 +1,177 @@
+%% qr.tex --- PGFPlots quick reference.  -*- TeX-master: t -*-
+
+% Copyright (C) 2018 Ralph Schleicher
+
+% Permission is granted to copy, distribute, and/or modify this document
+% under the terms of the GNU Free Documentation License, Version 1.3 or
+% any later version published by the Free Software Foundation; with no
+% Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+%
+% You should have received a copy of the GNU Free Documentation License
+% along with this document.  If not, see <https://www.gnu.org/licenses/>.
+
+%% Code:
+
+\newif\ifgalley\galleyfalse
+\documentclass[fontsize=8pt,
+               toc=flat,
+               open=any,
+               headings=small]{scrbook}
+\input qr-paper.tex
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fourier}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.16}
+% Auxiliary packages.
+\usepackage{alltt}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{ragged2e}
+\usepackage{splitidx}
+\usepackage{tabulary}
+%\usepackage{tikzscale}
+\usepackage{pifont}
+\usepackage{xcolor}
+\usepackage{xstring}
+% Should be last.
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,
+            allcolors=black}
+
+% Customize ‘pgfplots’.
+\usetikzlibrary{plotmarks}
+
+% Customize ‘multicol’.
+\columnsep=18bp
+\columnseprule=0bp
+\def\columnseprulecolor{\color{gray}\relax}
+% External TikZ pictures must have the same size if we want
+% to use them for A4 paper and letter paper.  A4 paper has
+% the smaller width (105 mm).
+%
+% >> n = (1:4)'
+% >> w = (105/25.4*72 - (2*18+6) - (n-1) .* 18) ./ n
+% >> floor(w.*10)./10
+% ans =
+%        255.6
+%        118.8
+%         73.2
+%         50.4
+\def\onecolumnwidth{255.6bp}
+\def\twocolumnswidth{118.8bp}
+\def\threecolumnswidth{73.2bp}
+\def\fourcolumnswidth{50.4bp}
+
+% Customize ‘ragged2e’.
+%\let\raggedright\RaggedRight
+
+% Customize ‘splitidx’.
+\makeindex
+\newindex[Option Index]{opt}
+\newindex[Symbol Index]{sym}
+
+% Customize ‘tabulary’.
+% Get rid of ‘No suitable columns!’ warning.
+%\tymin=2em
+
+\input qr-macros.tex
+
+\title{\PGFPlots{} Quick Reference}
+\author{Ralph Schleicher}
+\date{2018-10-13}
+
+\pagestyle{plain}
+\parindent=0pt
+
+% Hack table of contents.
+\AtBeginDocument{\addtocontents{toc}{\protect\begin{multicols}{2}}}
+\AtEndDocument{\addtocontents{toc}{\protect\end{multicols}}}
+% It's not that simple for the indices.
+% See also file ‘qr.ist’.
+\renewenvironment{theindex}{%
+\begin{multicols}{2}[\section*\indexname]
+  \let\item\indexitem
+  \let\subitem\indexsubitem
+  \let\subsubitem\indexsubsubitem
+  \parskip=0pt plus 0.5pt\relax
+  \footnotesize\raggedright}{%
+\end{multicols}}
+% Relative indentation of index items.
+\def\indexitem{\par\hangindent1.5em\relax}
+\def\indexsubitem{\par\hangindent2.5em\hskip1em\relax}
+\def\indexsubsubitem{\par\hangindent3.5em\hskip2em\relax}
+\def\indexspace{\par\medskip}
+\def\indexgroup#1{{\usekomafont{disposition}#1}}
+\def\indexsymhead{@}
+\def\indexnumhead{\#}
+% Nice alignment of dots.
+\def\indexleaders{\leaders\hbox to 1em{\hss.\hss}\hfill}
+\def\indexpagesep{\enskip\indexleaders\enskip}
+
+\begin{document}
+\ifgalley
+  \raggedbottom
+  \raggedright
+  \begingroup
+    \let\clearpage\relax
+    \input qr-galley.tex
+  \endgroup
+\else
+  \frontmatter
+  \input qr-front-cover.tex
+  \begingroup
+    \let\clearpage\relax
+    \input qr-frontispiece.tex
+    \thispagestyle{empty}
+  \endgroup
+
+  \mainmatter
+  \begingroup
+    \raggedbottom
+    \raggedright
+    \begingroup
+      \let\clearpage\relax
+      \input qr-body.tex
+    \endgroup
+    \clearpage
+    \begingroup
+      \let\clearpage\relax
+      \def\indexname{Option Index}
+      \input\jobname-opt.ind
+      \def\indexname{Concept Index}
+      \input\jobname-idx.ind
+    \endgroup
+  \endgroup
+
+  \backmatter
+  \pagestyle{empty}
+  % Output a multiple of four pages.
+  % Also consider the first two pages.
+  \newcount\extrapages
+  \extrapages\value{page}
+  \advance\extrapages by 2
+  \divide\extrapages by 4
+  \multiply\extrapages by 4
+  \advance\extrapages by -\value{page}
+  \advance\extrapages by -2
+  \ifnum\extrapages=0\else
+    \advance\extrapages by 4
+  \fi
+  \ifnum\extrapages=1
+    \leavevmode\clearpage
+  \fi
+  \ifnum\extrapages=2
+    \leavevmode\clearpage
+    \leavevmode\clearpage
+  \fi
+  \ifnum\extrapages=3
+    \leavevmode\clearpage
+    \leavevmode\clearpage
+    \leavevmode\clearpage
+  \fi
+  \input qr-back-cover.tex
+\fi
+\end{document}
+
+%% qr.tex ends here

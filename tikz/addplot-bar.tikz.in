@@ -1,0 +1,11 @@
+\begin{tikzpicture}
+\begin{axis}[
+  xticklabels = {},
+  yticklabels = {},
+]
+\addplot+[
+  #1,
+]
+coordinates {#2};
+\end{axis}
+\end{tikzpicture}

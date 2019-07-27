@@ -1,0 +1,12 @@
+\begin{tikzpicture}
+\begin{axis}[
+  x = \threecolumnswidth - 0.4pt,
+  hide axis,
+  clip = false,
+]
+\addplot[
+  #1,
+]
+coordinates {(0, 0) (1, 0)};
+\end{axis}
+\end{tikzpicture}

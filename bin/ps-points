@@ -1,0 +1,135 @@
+#! /bin/bash
+
+## ps-points --- convert a TeX dimension into PostScript units.
+
+# Copyright (C) 2018 Ralph Schleicher
+
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+#
+#    * Redistributions of source code must retain the above copyright
+#      notice, this list of conditions and the following disclaimer.
+#
+#    * Redistributions in binary form must reproduce the above copyright
+#      notice, this list of conditions and the following disclaimer in
+#      the documentation and/or other materials provided with the
+#      distribution.
+#
+#    * Neither the name of the copyright holder nor the names of its
+#      contributors may be used to endorse or promote products derived
+#      from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+# "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+# LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+# FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE
+# COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+# INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+# BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+# LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+# CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+# LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+# ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+
+## Code:
+
+# Sed script for deleting a leading X.
+X='s/^X//'
+
+# Sed script for deleting the directory part of a file name.
+prefix='s,^.*/,,'
+
+# Sed script for deleting the file name extension.
+suffix='s,\.[^.]*$,,'
+
+# Short program invocation name (without directory).
+prog=$(echo "X$0" | sed -e "$X" -e "$prefix")
+
+# Process arguments.
+status=0
+
+for arg
+do
+    # Strip leading and trailing spaces.
+    arg=$(echo "X$arg" | sed -e "$X" -e 's/^[ 	]*//' -e 's/[ 	]*$//')
+
+    case $arg in
+      *pt)
+	# 72.27 pt = 72 bp
+	val=$(echo "X$arg" | sed -e "$X" -e 's/[ 	]*pt$//')
+	unit=72/72.27
+	;;
+      *pc)
+	# 1 pc = 12 pt
+	val=$(echo "X$arg" | sed -e "$X" -e 's/[ 	]*pc$//')
+	unit=864/72.27
+	;;
+      *in)
+	# 1 in = 72 bp
+	val=$(echo "X$arg" | sed -e "$X" -e 's/[ 	]*in$//')
+	unit=72
+	;;
+      *bp)
+	# 1 bp
+	val=$(echo "X$arg" | sed -e "$X" -e 's/[ 	]*bp$//')
+	unit=1
+	;;
+      *cm)
+	# 2.54 cm = 1 in
+	val=$(echo "X$arg" | sed -e "$X" -e 's/[ 	]*cm$//')
+	unit=72/2.54
+	;;
+      *mm)
+	# 25.4 mm = 1 in
+	val=$(echo "X$arg" | sed -e "$X" -e 's/[ 	]*mm$//')
+	unit=72/25.4
+	;;
+      *dd)
+	# 1157 dd = 1238 pt
+	val=$(echo "X$arg" | sed -e "$X" -e 's/[ 	]*dd$//')
+	unit=89136/83616.39
+	;;
+      *cc)
+	# 1 cc = 12 dd
+	val=$(echo "X$arg" | sed -e "$X" -e 's/[ 	]*cc$//')
+	unit=1069632/83616.39
+	;;
+      *sp)
+	# 65536 sp = 1 pt
+	val=$(echo "X$arg" | sed -e "$X" -e 's/[ 	]*sp$//')
+	unit=72/4736286.72
+	;;
+      *)
+	# Plain number.
+	val=$arg
+	unit=1
+	;;
+    esac
+
+    # Check that VAL is a number.  TeX allows point and comma.
+    if echo "X$val" | egrep -q '^X[-+]?[0-9]*[.,]?[0-9]+$'
+    then
+	val=$(echo "X$val" | sed -e "$X" -e 's/,/./')
+	# Apply unit conversion scale.
+	val=$(echo "scale=7; $val * $unit" | bc)
+	# Add leading zero.
+	val=$(echo "X$val" | sed -e "$X" -e 's/^\([-+]\)\{0,1\}\./\10./')
+	# Strip trailing zeros.
+	case $val in
+	  *.*)
+	    val=$(echo "X$val" | sed -e "$X" -e 's/\.\{0,1\}0\{1,\}$//')
+	    ;;
+	esac
+	# Display result.
+	echo "X$val" | sed -e "$X"
+    else
+	echo "$prog: invalid dimension ‘$arg’" >&2
+	status=1
+    fi
+done
+
+exit $status
+
+## ps-points ends here

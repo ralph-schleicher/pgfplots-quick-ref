@@ -1,0 +1,9 @@
+\begin{tikzpicture}[
+  x = 4pt,
+  y = 4pt,
+]
+\draw[
+  fill = #1,
+]
+(0, 0) rectangle (2, 1);
+\end{tikzpicture}

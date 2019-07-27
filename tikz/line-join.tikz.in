@@ -1,0 +1,20 @@
+\begin{tikzpicture}
+\begin{axis}[
+  x = \threecolumnswidth/2,
+  y = \threecolumnswidth/2,
+  hide axis,
+  clip = false,
+  rotate = -atan(1/4),
+]
+\addplot[
+  line width = 8pt,
+  line join = #1,
+]
+coordinates {(-1/16, 0) (0, -1/4) (1, 0) (1/4, 3/16)};
+\addplot[
+  white,
+  line join = #1,
+]
+coordinates {(-1/16, 0) (0, -1/4) (1, 0) (1/4, 3/16)};
+\end{axis}
+\end{tikzpicture}

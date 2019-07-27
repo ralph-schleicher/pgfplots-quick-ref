@@ -1,0 +1,13 @@
+\begin{tikzpicture}
+\begin{axis}[
+  hide axis,
+  clip = false,
+]
+\addplot[
+  mark = #1,
+  mark options = {draw = blue, fill = yellow},
+  mark color = pink,
+]
+coordinates {(0, 0)};
+\end{axis}
+\end{tikzpicture}

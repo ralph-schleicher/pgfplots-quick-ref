@@ -1,0 +1,1088 @@
+%% qr-body.tex  -*- TeX-master: "qr.tex" -*-
+
+% Copyright (C) 2018 Ralph Schleicher
+
+% Permission is granted to copy, distribute, and/or modify this document
+% under the terms of the GNU Free Documentation License, Version 1.3 or
+% any later version published by the Free Software Foundation; with no
+% Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+%
+% You should have received a copy of the GNU Free Documentation License
+% along with this document.  If not, see <https://www.gnu.org/licenses/>.
+
+%% Code:
+
+\chapter{General}
+
+
+\section{Document Structure}
+
+\begin{multicols}{2}
+\begin{verbatim}
+\documentclass{standalone}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.16}
+
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[title={$y = e^x$}]
+\addplot+[no markers] {exp(x)};
+\end{axis}
+\end{tikzpicture}
+\end{document}
+\end{verbatim}
+\columnbreak
+\begin{tikzpicture}
+\begin{axis}[
+  width=\the\linewidth,
+  title={$y = e^x$},
+]
+\addplot+[
+  no markers,
+] {exp(x)};
+\end{axis}
+\end{tikzpicture}
+\end{multicols}
+
+
+\section{\PGFPlots{} Options}
+
+\texindex{pgfplotsset}
+\begin{meta}
+\\pgfplotsset\{\metavar{key/value list}\}
+\metavar{key/value list}\=\group{\metavar{key} = \metavar{value},}\*
+\end{meta}
+%\index{option prefix!pgfplots@\protect\code{/pgfplots/}}
+%\index{pgfplots!option prefix@\protect\code{/pgfplots/}}
+%\index{option prefix!tikz@\protect\code{/tikz/}}
+%\index{tikz!option prefix@\protect\code{/tikz/}}
+Options are supplied as a \metavar{key/value list}.
+The \code{/pgfplots/} and \code{/tikz/} prefixes in \metavar{key} can
+be omitted in the scope of \PGFPlots{} commands.  Please note that a
+trailing comma in \metavar{key/value list} does no harm.
+
+
+\section{Key Handlers}
+
+\index{handler|see {key handler}}
+\index{style option|see {key handler}}
+\index{code option|see {key handler}}
+
+\label{key:/.style}
+\begin{meta}
+\\pgfplotsset\{\metavar{key}/.style = \{\metavar{key/value list}\}\}
+\end{meta}
+\index{key handler!style@\protect\code{.style}}
+\index{style key handler@\protect\code{.style} key handler}
+Define or replace style \metavar{key}.
+
+\label{key:/.append style}
+\begin{meta}
+\\pgfplotsset\{\metavar{key}/.append style = \{\metavar{key/value list}\}\}
+\end{meta}
+\index{key handler!append style@\protect\code{.append style}}
+\index{append style key handler@\protect\code{.append style} key handler}
+Append to style \metavar{key}.
+
+\label{key:/.code}
+\begin{meta}
+\\pgfplotsset\{\metavar{key}/.code = \{\metavar{\TeX{} code}\}\}
+\end{meta}
+\index{key handler!code@\protect\code{.code}}
+\index{code key handler@\protect\code{.code} key handler}
+Define or replace \metavar{key} that -- when run -- takes one argument;
+\metavar{\TeX{} code} can refer to the supplied argument as \code{\#1}.
+Invoke as ‘\code{\\pgfplotsset\{\metavar{key} = \{\metavar{argument}\}\}}’.
+
+\label{key:/.code 2 args}
+\begin{meta}
+\\pgfplotsset\{\metavar{key}/.code 2 args = \{\metavar{\TeX{} code}\}\}
+\end{meta}
+\index{key handler!code@\protect\code{.code 2 args}}
+\index{code 2 args key handler@\protect\code{.code 2 args} key handler}
+Like \hyperref[key:/.code]{\code{\metavar{key}/.code}}
+but with two arguments; \metavar{\TeX{} code} can refer to the
+supplied arguments as \code{\#1} and \code{\#2}.  Invoke as
+‘\code{\\pgfplotsset\{\metavar{key} = \{\metavar{first argument}\}\{\metavar{second argument}\}\}}’.
+
+\label{key:/.cd}
+\begin{meta}
+\\pgfplotsset\{\metavar{key}/.cd\}
+\end{meta}
+\index{key handler!cd@\protect\code{.cd}}
+\index{cd key handler@\protect\code{.cd} key handler}
+Make \metavar{key} the default prefix.
+
+
+\section{Mathematical Expressions}
+
+See the \TikZ/\PGF{} manual for a detailed description.
+
+Use parenthesis, \code{(} and \code{)}, for grouping.  Arguments and
+values of trigonometric functions are in degree angle.
+
+\begingroup
+\def\item[#1]{{\sl #1\/}:}
+\item[Arithmetic Operators]
+\code{+}, \code{-}~(also unary minus), \code{*}, \code{/},
+\code{\textasciicircum}~(exponentiation),
+\code{!}~(factorial, postfix operator),
+\code{r}~(radian, postfix operator, see \code{deg}).
+
+\item[Relational Operators]
+\code{==}, \code{!=}, \code{<}, \code{<=}, \code{>}, \code{>=}.
+
+\item[Logical Operators]
+\code{!}~(not, prefix operator),
+\code{||}~(or), \code{\&\&}~(and).
+
+\item[Conditionals]
+\code{\metavar{condition}?\metavar{true}:\metavar{false}}.
+
+\item[Constants]
+\code{pi}, \code{e}, \code{false}, \code{true}.
+
+\item[Unary Functions]
+\code{abs}, \code{sign}, \code{int}, \code{frac}~(fractional part),
+\code{round}, \code{floor}, \code{ceil},
+\code{factorial} (see \code{!}),
+\code{iseven}, \code{isodd}, \code{isprime},
+\code{sqrt},
+\code{exp}, \code{ln}, \code{log10}, \code{log2},
+\code{sin}, \code{cos}, \code{tan}, \code{cot}, \code{sec}, \code{cosec},
+\code{asin}, \code{acos}, \code{atan},
+\code{deg}~(degree from radian), \code{rad}~(radian from degree),
+\code{sinh}, \code{cosh}, \code{tanh}.
+
+\item[Binary Functions]
+\code{div}~(integer division), \code{mod}, \code{Mod}~(unsigned result),
+\code{gcd},
+\code{pow}~(see \code{\textasciicircum}),
+\code{atan2},
+\code{veclen}~(vector length in~$\mathbb{R}^2$).
+
+\item[$n$-ary Functions]
+\code{min}, \code{max}.
+
+\item[Pseudo-Random Number Functions (Uniform Distribution)]
+\code{rnd}~($[0,1]\cap\mathbb{R}$),
+\code{rand}~($[-1,1]\cap\mathbb{R}$),
+\code{random($n$)}~($[1,n]\cap\mathbb{N}$),
+\code{random($m$,$n$)}~($[m,n]\cap\mathbb{Z}$).
+\endgroup
+
+
+\chapter{Axis Environments}
+
+\envindex{axis}
+\envindex{semilogxaxis}
+\envindex{semilogyaxis}
+\envindex{loglogaxis}
+\begin{meta}
+\\begin\{axis\}[\metavar{axis options}]\?
+\metavar{axis options}\=\metavar{key/value list}
+\end{meta}
+\env{axis} can also be \env{semilogxaxis}, \env{semilogyaxis}, or
+\env{loglogaxis}.
+
+\optindex{every linear axis}
+\optindex{every semilogx axis}
+\optindex{every semilogy axis}
+\optindex{every loglog axis}
+\begin{meta}
+\defsty{every \metavar{type}\? axis}
+\metavar{type}\=\group{linear\|semilogx\|semilogy\|loglog}
+\end{meta}
+Define default axis options.
+
+\optindex{xmode}
+\optindex{ymode}
+\optindex{zmode}
+\symindex{normal}
+\symindex{linear}
+\symindex{log}
+\begin{meta}
+\defopt{xmode\|ymode\|zmode} = \default{normal}\|linear\|log
+\end{meta}
+\index{axis scaling}
+\index{linear!axis scaling}
+\index{logarithmic!axis scaling}
+Customize axis scaling; \code{linear} is a synonym for \code{normal}.
+
+\optindex{log basis}
+\begin{meta}
+\defopt{log basis \group{x\|y\|z}} = \default{\metavar{empty}}\|\metavar{positive number}
+\end{meta}
+\index{axis scaling!basis for logarithm}
+The basis for logarithmic axis scaling.  Empty means to apply the
+natural logarithm (base~$e$) to any input coordinate -- if the axis
+scaling is logarithmic -- and use the decadic/common logarithm
+(base~10) for displaying tick labels.  Any non-empty value causes
+both, coordinates and tick labels, to use the logarithm with base
+\metavar{number}.
+
+
+\chapter{Plots}
+
+\texindex{addplot}
+\begin{meta}
+\\addplot[\metavar{plot options}]\? \metavar{input data} \metavar{trailing TikZ path commands};
+\end{meta}
+\code{\\addplot} (without options) and
+\code{\\addplot+[\metavar{plot options}]} utilize default options from the
+cycle list.
+\code{\\addplot[\metavar{plot options}]} only use the manually provided
+options.
+
+\optindex{every axis plot}
+\begin{meta}
+\defsty{every axis plot \group{no \var{n}}\?}
+\end{meta}
+Define \metavar{plot options} for all plots or for the $n^{\rm th}$ plot
+of every axis.  Plot numbers are zero-based.
+
+
+\section{Input Data}
+
+\optindex{empty line}
+\symindex{auto}
+\symindex{none}
+\symindex{scanline}
+\symindex{jump}
+\begin{meta}
+\defopt{empty line} = \default{auto}\|none\|scanline\|jump
+\end{meta}
+How to handle empty lines in \metavar{coordinates list}, \code{none}
+means to do nothing, \code{jump} means to insert a discontinuity.
+
+
+\subsection{Coordinates List}
+
+\symindex{coordinates}
+\symindex{+-}
+\begin{meta}
+\metavar{input data}\=coordinates \{\metavar{coordinates list}\}
+\metavar{coordinates list}\=\metavar{coordinates}\*
+\metavar{coordinates}\=(\var{x}, \var{y}, \var{z}) \group{+- (\var{u}, \var{v}, \var{w})}\? \group{[\metavar{meta data}]}\?
+\end{meta}
+\index{input data!coordinates list}
+\index{coordinates list!input data}
+\index{list of coordinates!input data}
+\index{sequence of coordinates!input data}
+Read input data from a sequence of coordinates.
+\var{x}, \var{y}, and \var{z} are the point coordinates.
+\var{u}, \var{v}, and \var{w} are the error coordinates (reliability
+bounds) for error bar plots.  Coordinate \var{z} and \var{w} are only
+mandatory for \acronym{3D} plots.
+Empty lines in the \metavar{coordinates list} indicate
+discontinuities; use \code{\\\\} when gathering coordinates in a
+\TeX{} macro.
+
+\suboptindex{plot coordinates/}{math parser}
+\begin{meta}
+\defopt{plot coordinates/math parser} = \default{true}\|false
+\end{meta}
+Whether or not to enable mathematical expressions in every coordinate
+inside of a \metavar{coordinates list}.
+
+
+\subsection{Table Data}
+
+\symindex{table}
+\begin{meta}
+\metavar{input data}\=table [\metavar{table options}]\? \{\metavar{table data}\}
+\metavar{table data}\={\metavar{file name}\|\metavar{inline table}}
+\end{meta}
+\index{input data!table data}
+\index{table data!input data}
+Read input data from table columns.
+
+\suboptindex{table/}{x}
+\suboptindex{table/}{y}
+\suboptindex{table/}{z}
+\suboptindex{table/}{x error}
+\suboptindex{table/}{x error plus}
+\suboptindex{table/}{x error minus}
+\suboptindex{table/}{y error}
+\suboptindex{table/}{y error plus}
+\suboptindex{table/}{y error minus}
+\suboptindex{table/}{z error}
+\suboptindex{table/}{z error plus}
+\suboptindex{table/}{z error minus}
+\suboptindex{table/}{meta}
+\begin{meta}
+\defopt{\implicit{table/}\metavar{coordinate}} = \metavar{column name}
+\defopt{\implicit{table/}\metavar{coordinate} index} = \metavar{column index}
+\defopt{\implicit{table/}\metavar{coordinate} expr} = \metavar{expression}
+\metavar{coordinate}\=x\|y\|z\|\group{x\|y\|z} error \group{plus\|minus}\?\|meta
+\end{meta}
+Column names are case sensitive and have to exist.  Use
+\code{\{\metavar{column name}\}} to quote non-trivial column names.
+The first column has index zero.
+
+\texindex{thisrow}
+\texindex{thisrowno}
+\texindex{coordindex}
+\texindex{lineno}
+Within \metavar{expression} \code{\\thisrow\{\metavar{column name}\}}
+and \code{\\thisrowno\metavar{column index}} yields the cell value of
+the specified column.  Likewise, \code{\\coordindex} yields the index
+of the current set of coordinates and \code{\\lineno} yields the total
+line number.  Both numbers start counting at zero.
+
+\suboptindex{table/}{header}
+\begin{meta}
+\defopt{\implicit{table/}header} = \default{true}\|false
+\end{meta}
+Whether or not to check \metavar{table data} for column names.
+If enabled, the first non-comment line is checked for column names.
+That means if any element is not a number, all entries are treated as
+column names.
+
+\suboptindex{table/}{skip first n}
+\begin{meta}
+\defopt{\implicit{table/}skip first n} = \default{0}\|\metavar{non-negative integer}
+\end{meta}
+Don't process the first~$n$ lines in \metavar{table data}.
+
+\suboptindex{table/}{ignore chars}
+\suboptindex{table/}{white space chars}
+\suboptindex{table/}{comment chars}
+\begin{meta}
+\defopt{\implicit{table/}ignore chars} = \default{\{\}}\|\metavar{comma-separated list}
+\defopt{\implicit{table/}white space chars} = \default{\{\}}\|\metavar{comma-separated list}
+\defopt{\implicit{table/}comment chars} = \default{\{\}}\|\metavar{comma-separated list}
+\end{meta}
+Extra characters to be ignored, treated like a whitespace character
+(beside space and tab), or treated like a comment start character
+(beside \code{\#} and \code{\%}).
+
+\suboptindex{table/}{row sep}
+\begin{meta}
+\defopt{\implicit{table/}row sep} = \default{\metavar{newline}}\|\\\\
+\end{meta}
+Use \code{\\\\} as the row seperator if you experience problems with
+\metavar{newline}, for example with inline table data or when
+gathering table data in a \TeX{} macro.
+
+\suboptindex{table/}{col sep}
+\begin{meta}
+\defopt{\implicit{table/}col sep} = \default{space}\|tab\|comma\|semicolon\|colon\wrap\|braces\|&\|ampersand
+\end{meta}
+A \code{space} column separator means one or more space or tab
+characters.  With \code{braces}, every table cell looks like
+\code{\{\metavar{contents}\}} and whitespace characters between
+adjacent table cells is ignored.  A \code{\&} column separator
+implies ‘\code{table/trim cells = true}’.
+
+\suboptindex{table/}{read completely}
+\begin{meta}
+\defopt{\implicit{table/}read completely} = \default{auto}\|true\|false
+\end{meta}
+Whether or not to read the whole table into memory.
+Use with care!
+
+\suboptindex{table/}{search path}
+\subsuboptindex{table/}{search path/}{implicit .}
+\begin{meta}
+\defopt{\implicit{table/}search path} = \default{\{\}}\|\metavar{comma-separated list}
+\defopt{\implicit{table/}search path/implicit .} = \default{true}\|false
+\end{meta}
+Search path for input files, \code{.} means to use the standard
+\TeX{} procedure.
+
+\texindex{pgfplotstableread}
+\begin{meta}
+\\pgfplotstableread\{\metavar{file name}\}\\foo
+\\addplot table [\metavar{table options}] \{\\foo\};
+\end{meta}
+Read table data once so that you can use it multiple times;
+\code{\\foo} is a user-defined command sequence.
+
+
+\subsection{Mathematical Expressions}
+
+\symindex{expression}
+\begin{meta}
+\metavar{input data}\={expression}\? \{\metavar{expression}\}
+\metavar{input data}\=(\metavar{x-expression}, \metavar{y-expression}, \metavar{z-expression})
+\end{meta}
+Create input data by sampling a mathematical expression over an
+argument domain.  The second form can be used to create parametric
+plots.  Say \code{\{\metavar{x-expression}\}} if
+\metavar{x-expression} contains parenthesis or commas.  The
+\metavar{z-expression} is only mandatory for \acronym{3D} plots.
+
+\optindex{domain}
+\optindex{domain y}
+\begin{meta}
+\defopt{domain} = \default{-5:5}\|\metavar{\(x\sub1\)}:\metavar{\(x\sub2\)}
+\defopt{domain y} = \default{\metavar{empty}}\|\metavar{\(y\sub1\)}:\metavar{\(y\sub2\)}
+\end{meta}
+Define the argument domain for the x-axis to the closed interval
+$[x_1, x_2]$.  Likewise for the y-axis for \acronym{3D} plots.  If
+\code{domain y} is empty, use the value of \code{domain}.
+
+\optindex{samples}
+\optindex{samples y}
+\begin{meta}
+\defopt{samples} = \default{25}\|\metavar{non-negative integer}
+\defopt{samples y} = \default{\metavar{empty}}\|\metavar{non-negative integer}
+\end{meta}
+The number of samples to be generated.  Samples are equally spaced
+over the corresponding argument domain.  If ‘\code{samples y}’ is empty,
+use the value of \code{samples}.
+
+\optindex{samples at}
+\begin{meta}
+\defopt{samples at} = \default{\{\}}\|\metavar{comma-separated list of numbers}
+\end{meta}
+Explicit argument values for sampling \metavar{expression}.  This
+option always overrides the \code{domain} and \code{samples} options.
+\metavar{comma-separated list of numbers} can contain \code{...}
+expressions, for example ‘\code{\{-2, -1.8, ..., 2\}}’.
+
+\optindex{variable}
+\optindex{variable y}
+\begin{meta}
+\defopt{variable} = \default{x}\|\metavar{variable name}
+\defopt{variable y} = \default{y}\|\metavar{variable name}
+\end{meta}
+The variable name containing the argument value when evaluating
+\metavar{expression}.
+
+
+\section{Line Plots}
+
+\begin{footnotesize}
+\begin{tabulary}{\linewidth}{@{} c @{\hskip\columnsep} c @{\hskip\columnsep} c @{\hskip\columnsep} c @{}}
+\demoplot{tikz/addplot-line-sharp.tikz} &
+\demoplot{tikz/addplot-line-smooth.tikz} &
+\demoplot{tikz/addplot-line-const.tikz} &
+\demoplot{tikz/addplot-line-jump.tikz} \\
+\code{sharp plot} &
+\code{smooth} &
+\code{const plot} &
+\code{jump mark left} \\
+\end{tabulary}
+\end{footnotesize}
+
+\optindex{sharp plot}
+\begin{meta}
+\defopt\tikzkey{sharp plot}
+\end{meta}
+Connect points by straight lines.  This is the default.
+
+\optindex{smooth}
+\optindex{tension}
+\begin{meta}
+\defopt\tikzkey{smooth}
+\defopt\tikzkey{tension} = \default{0.55}\|\metavar{number}
+\end{meta}
+Connect points by a smooth curve.  For best results, points should be
+equidistant and the bending angles should be less than about~$30^\circ$.
+The \code{tension} option controls the sharpness of the corners; $0$
+yields sharp corners and $1$ yields a circle if the path is a square.
+
+\optindex{const plot}
+\optindex{const plot mark left}
+\optindex{const plot mark mid}
+\optindex{const plot mark right}
+\begin{meta}
+\defopt\tikzkey{const plot}
+\defopt\tikzkey{const plot mark \group{\default{left}\|mid\|right}}
+\end{meta}
+Connect points with horizontal and vertical line segments.
+‘\code{const plot}’ is an alias for ‘\code{const plot mark left}’.
+Markers are placed on the left corner, in the middle, or on the right
+corner of the horizontal line segments.
+Use ‘\code{const plot, no markers}’ to omit the markers.
+
+\optindex{jump mark left}
+\optindex{jump mark mid}
+\optindex{jump mark right}
+\begin{meta}
+\defopt\tikzkey{jump mark \group{left\|mid\|right}}
+\end{meta}
+Like ‘\code{const plot}’ but omit the vertical line segments.
+
+
+\section{Bar Plots}
+
+\begin{footnotesize}
+\begin{tabulary}{\linewidth}{@{} c @{\hskip\columnsep} c @{\hskip\columnsep} c @{\hskip\columnsep} c @{}}
+\demoplot{tikz/addplot-bar-xbar.tikz} &
+\demoplot{tikz/addplot-bar-ybar.tikz} &
+\demoplot{tikz/addplot-bar-xbar-interval.tikz} &
+\demoplot{tikz/addplot-bar-ybar-interval.tikz} \\
+\code{xbar} &
+\code{ybar} &
+\code{xbar interval} &
+\code{ybar interval} \\
+\end{tabulary}
+\end{footnotesize}
+
+\optindex{xbar}
+\optindex{ybar}
+\begin{meta}
+\defopt\tikzkey{xbar}
+\defopt\tikzkey{ybar}
+\end{meta}
+Render coordinates as horizontal or vertical bars respectively.
+
+\optindex{bar width}
+\begin{meta}
+\defopt{\pgfkey{bar width}} = \default{10pt}\|\metavar{dimension}\|\metavar{number}
+\end{meta}
+\texindex{pgfplotbarwidth}
+Width of a single bar.  \metavar{dimension} is a \TeX{} dimension and
+\metavar{number} is in axis units.  Value can be a mathematical
+expression.  The fully computed value is then available in
+\code{\\pgfplotbarwidth}.
+
+\optindex{bar shift}
+\begin{meta}
+\defopt{\pgfkey{bar shift}} = \default{0pt}\|\metavar{dimension}\|\metavar{number}
+\end{meta}
+\texindex{pgfplotbarshift}
+Off-center distance for the bars.  \metavar{dimension} is a \TeX{}
+dimension and \metavar{number} is in axis units.  Value can be a
+mathematical expression.  The fully computed value is then available
+in \code{\\pgfplotbarshift}.
+
+\styindex{xbar}
+\styindex{ybar}
+\begin{meta}
+\defsty{xbar}
+\defopt{xbar}\group{ = \default{2pt}\|\metavar{dimension}\|\metavar{number}}\?
+\defsty{ybar}
+\defopt{ybar}\group{ = \default{2pt}\|\metavar{dimension}\|\metavar{number}}\?
+\end{meta}
+Predefined axis style for bar plots; implies \code{\tikzkey{xbar}}
+or \code{\tikzkey{ybar}} respectively, \sty{bar shift auto}, and
+\sty{bar cycle list}.  The default handler takes one optional
+argument which is passed on to \sty{bar shift auto}.
+
+\styindex{bar shift auto}
+\begin{meta}
+\defsty{bar shift auto}
+\defopt{bar shift auto} = \default{2pt}\|\metavar{dimension}\|\metavar{number}
+\end{meta}
+Predefined axis style setting \pgfkey{bar shift} to the correct value
+based on the current plot number and the total number of plots.
+Argument is the distance between adjacent bars of a group.
+
+When $n$ bar plots are added to an axis, the total width for a group of
+bars is $n\times\metavar{bar width}+(n-1)\times\metavar{bar shift auto}$.
+
+\styindex{bar cycle list}
+\begin{meta}
+\defsty{bar cycle list}
+\end{meta}
+Predefined axis style installing a cycle list for bar plots.
+
+\optindex{bar direction}
+\begin{meta}
+\defopt{bar direction} = \default{auto}\|x\|y
+\end{meta}
+Explicitly set the bar plot direction.  Not needed if you say, for
+example ‘\code{ybar, bar width = 1}’, because the direction is clear
+from the context.
+
+\optindex{xbar interval}
+\optindex{ybar interval}
+\begin{meta}
+\defopt\tikzkey{xbar interval}
+\defopt\tikzkey{ybar interval}
+\end{meta}
+Like \tikzkey{xbar} or \tikzkey{ybar} respectively, but draw the bar
+width as an interval from this point to the next point.  You need one
+extra point to define the interval for the last bar.
+
+\styindex{xbar interval}
+\styindex{ybar interval}
+\begin{meta}
+\defsty{xbar interval}
+\defopt{xbar interval}\group{ = \default{1}\|\metavar{relative width}}\?
+\defsty{ybar interval}
+\defopt{ybar interval}\group{ = \default{1}\|\metavar{relative width}}\?
+\end{meta}
+Predefined axis style for interval bar plots; implies
+\code{\tikzkey{xbar interval}} or \code{\tikzkey{ybar interval}}
+respectively and \sty{bar cycle list}.  The default handler takes one
+optional argument to scale the intervals.
+
+\styindex{xticklabel interval boundaries}
+\styindex{yticklabel interval boundaries}
+\styindex{zticklabel interval boundaries}
+\begin{meta}
+\defsty{xticklabel interval boundaries}
+\defsty{yticklabel interval boundaries}
+\defsty{zticklabel interval boundaries}
+\end{meta}
+Axis style to display the interval bounds in the tick labels.
+
+
+\section{Comb Plots}
+
+\begin{footnotesize}
+\begin{tabulary}{\linewidth}{@{} c @{\hskip\columnsep} c @{\hskip\columnsep} c @{\hskip\columnsep} c @{}}
+\demoplot{tikz/addplot-comb-xcomb.tikz} &
+\demoplot{tikz/addplot-comb-ycomb.tikz} & & \\
+\code{xcomb} &
+\code{ycomb} & & \\
+\end{tabulary}
+\end{footnotesize}
+
+\optindex{xcomb}
+\optindex{ycomb}
+\begin{meta}
+\defopt\tikzkey{xcomb}
+\defopt\tikzkey{ycomb}
+\end{meta}
+Render coordinates as horizontal or vertical lines respectively.
+
+
+\section{Quiver Plots}
+
+\optindex{quiver}
+\begin{meta}
+\defopt{quiver} = \{\metavar{quiver options}\}
+\end{meta}
+Render coordinates as small arrows.  The origin of the arrow is at the
+final point coordinates $(x,y,z)$ and the direction and length of the
+arrow is defined by the direction coordinates $(u,v,w)$.
+
+The \code{quiver/} prefix can be omitted
+within \metavar{quiver options}.
+
+\suboptindex{quiver/}{u}
+\suboptindex{quiver/}{v}
+\suboptindex{quiver/}{w}
+\begin{meta}
+\defopt{\implicit{quiver/}\group{u\|v\|w}} = \default{0}\|\metavar{expression}
+\end{meta}
+The direction coordinates of the arrows.  Within \metavar{expression},
+\code{x}, \code{y}, and \code{z} are bound to the final point
+coordinates.
+
+For parametric plots use ‘\code{variable = t}’ and ‘\code{quiver/u = f(t)}’
+and ‘\code{quiver/v = g(t)}’ to access the parameter.
+
+\begin{footnotesize}
+\begin{verbatim}
+\addplot[
+  variable = t,
+  quiver = {u = {-sin(t)}, v = {cos(t)}},
+]
+({cos(t)}, {sin(t)});
+\end{verbatim}
+\end{footnotesize}
+
+\suboptindex{quiver/}{u value}
+\suboptindex{quiver/}{v value}
+\suboptindex{quiver/}{w value}
+\begin{meta}
+\defopt{\implicit{quiver/}\group{u\|v\|w} value} = \default{0}\|\metavar{number}
+\end{meta}
+Like \code{quiver/u}, \code{quiver/v}, and \code{quiver/w}
+respectively but without parsing mathematical expressions.  However,
+\code{\\thisrow\{\metavar{column name}\}} and similar code works.
+
+\suboptindex{quiver/}{colored}
+\begin{meta}
+\defopt{\implicit{quiver/}colored}
+\defopt{\implicit{quiver/}colored} = \default{mapped color}\|\metavar{color}
+\end{meta}
+Set a different color for each arrow.  \code{quiver/colored} is an
+alias for ‘\code{quiver/colored = mapped color}’.  Please note that
+‘\code{\metavar{color}, quiver = {\metadots}}’ is more efficient if
+\metavar{color} is constant.
+
+\suboptindex{quiver/}{scale arrows}
+\begin{meta}
+\defopt{\implicit{quiver/}scale arrows} = \default{1}\|\metavar{number}
+\end{meta}
+Scale all arrows by a constant factor.
+
+\suboptindex{quiver/}{update limits}
+\begin{meta}
+\defopt{\implicit{quiver/}update limits} = \default{true}\|false
+\end{meta}
+Whether or not the coordinates of the arrow heads shall be considered
+when determining the axis limits.
+
+\substyindex{quiver/}{every arrow}
+\begin{meta}
+\defsty{quiver/every arrow}
+\end{meta}
+Style to customize arrows individually at visualization time.
+
+\subcodeindex{quiver/}{before arrow}
+\subcodeindex{quiver/}{after arrow}
+\begin{meta}
+\defcode{quiver/before arrow}
+\defcode{quiver/after arrow}
+\end{meta}
+Run \metavar{\TeX{} code} before and after drawing a single arrow.
+Empty by default.
+
+\substyindex{quiver/}{quiver legend}
+\begin{meta}
+\defsty{\implicit{quiver/}quiver legend}
+\end{meta}
+Style that redefines \code{legend image code} in order to produce a
+suitable legend for quiver plots.
+
+%\section{Stacked Plots}
+%\section{Area Plots}
+%\section{Closing Plots}
+%\section{Scatter Plots}
+
+
+\chapter{Lines and Markers}
+
+
+\section{Line Width}
+
+\styindex{ultra thin}
+\styindex{very thin}
+\styindex{thin}
+\styindex{semithick}
+\styindex{thick}
+\styindex{very thick}
+\styindex{ultra thick}
+\begin{meta}
+\qrlinewidth{ultra@thin}
+\qrlinewidth{very@thin}
+\qrlinewidth{thin}
+\qrlinewidth{semithick}
+\qrlinewidth{thick}
+\qrlinewidth{very@thick}
+\qrlinewidth{ultra@thick}
+\end{meta}
+\index{line width}
+Predefined line widths.
+
+\optindex{line width}
+\begin{meta}
+\defopt{\implicit{/tikz/}line width} = \default{0.4pt}\|\metavar{dimension}
+\end{meta}
+\index{line width}
+Set the line width.
+
+
+\section{Line Cap}
+
+\optindex{line cap}
+\begin{meta}
+\defopt{\implicit{/tikz/}line cap} = \default{butt}\|rect\|round
+\end{meta}
+Set the line cap style.
+
+\medskip
+\begin{threecolumns}
+\qrlinecap{butt} &
+\qrlinecap{rect} &
+\qrlinecap{round} \\
+\end{threecolumns}
+
+
+\section{Line Join}
+
+\optindex{line join}
+\begin{meta}
+\defopt{\implicit{/tikz/}line join} = \default{miter}\|bevel\|round
+\end{meta}
+Set the line join style.
+
+\medskip
+\begin{threecolumns}
+\qrlinejoin{miter} &
+\qrlinejoin{bevel} &
+\qrlinejoin{round} \\
+\end{threecolumns}
+
+\begin{meta}
+\defopt{\implicit{/tikz/}miter limit} = \default{10}\|\metavar{number}
+\end{meta}
+When the ratio of the miter length to the line width is greater than
+\metavar{number}, the miter join is replaced by a bevel.  A miter
+limit $\ell=1/\sin(\alpha/2)$ for $\alpha\in(0^\circ,\,180^\circ]$
+will create a bevel join for angles less than
+$\alpha=2\cdot\arcsin(1/\ell)$.
+
+
+\section{Dash Pattern}
+
+\styindex{solid}
+\styindex{dashed}
+\styindex{densely dashed}
+\styindex{loosely dashed}
+\styindex{dotted}
+\styindex{densely dotted}
+\styindex{loosely dotted}
+\styindex{dashdotted}
+\styindex{densely dashdotted}
+\styindex{loosely dashdotted}
+\styindex{dashdotdotted}
+\styindex{densely dashdotdotted}
+\styindex{loosely dashdotdotted}
+\begin{meta}
+\qrlinestyle{solid}
+\qrlinestyle{dashed}
+\qrlinestyle{dotted}
+\qrlinestyle{dashdotted}
+\qrlinestyle{dashdotdotted}
+\qrlinestyle{densely@dashed}
+\qrlinestyle{densely@dotted}
+\qrlinestyle{densely@dashdotted}
+\qrlinestyle{densely@dashdotdotted}
+\qrlinestyle{loosely@dashed}
+\qrlinestyle{loosely@dotted}
+\qrlinestyle{loosely@dashdotted}
+\qrlinestyle{loosely@dashdotdotted}
+\end{meta}
+\index{line style}
+Predefined line styles.
+
+\optindex{dash pattern}
+\begin{meta}
+\defopt{\implicit{/tikz/}dash pattern} = \group{\group{on\|off} \metavar{dimension}}\+
+\end{meta}
+\index{line style}
+\index{dash pattern}
+Set the dash pattern (line style) for drawing lines, e.g.,
+‘\code{dash pattern = on 3.5mm off 0.7mm}’.
+
+\optindex{dash phase}
+\begin{meta}
+\defopt{\implicit{/tikz/}dash phase} = \default{0pt}\|\metavar{dimension}
+\end{meta}
+\index{dash phase}
+Start the dash pattern at offset \metavar{dimension}.
+
+
+\section{Markers}
+
+\noindent
+Standard markers:
+
+\medskip
+\begin{threecolumns}
+\qrlinemarker{none}; & & \\
+\qrlinemarker{*}bullet; &
+\qrlinemarker{x}cross; &
+\qrlinemarker{+}plus; \\
+\end{threecolumns}
+
+\noindent
+With \code{\\usetikzlibrary\{plotmarks\}}:
+
+\medskip
+\begin{threecolumns}
+\qrlinemarker{o}; &
+\qrlinemarker{|}vert; &
+\qrlinemarker{-}minus; \\
+\end{threecolumns}
+\begin{threecolumns}
+\qrlinemarker{asterisk}; &
+\qrlinemarker{star}; &
+\qrlinemarker{10-pointed@star}; \\
+\end{threecolumns}
+\begin{threecolumns}
+\qrlinemarker{Mercedes@star}; &
+\qrlinemarker{Mercedes@star@flipped}; & \\
+\end{threecolumns}
+\begin{threecolumns}
+\qrlinemarker{oplus}; &
+\qrlinemarker{oplus*}; & \\
+\end{threecolumns}
+\begin{threecolumns}
+\qrlinemarker{otimes}; &
+\qrlinemarker{otimes*}; & \\
+\end{threecolumns}
+\begin{threecolumns}
+\qrlinemarker{square}; &
+\qrlinemarker{square*}; &
+\qrlinemarker{halfsquare*}; \\
+\end{threecolumns}
+\begin{threecolumns}
+\qrlinemarker{triangle}; &
+\qrlinemarker{triangle*}; & \\
+\end{threecolumns}
+\begin{threecolumns}
+\qrlinemarker{diamond}; &
+\qrlinemarker{diamond*}; &
+\qrlinemarker{halfdiamond*}; \\
+\end{threecolumns}
+\begin{threecolumns}
+\qrlinemarker{pentagon}; &
+\qrlinemarker{pentagon*}; & \\
+\end{threecolumns}
+\begin{threecolumns}
+\qrlinemarker{halfcircle}; &
+\qrlinemarker{halfcircle*}; & \\
+\end{threecolumns}
+\begin{threecolumns}
+\qrlinemarker{heart}; &
+\qrlinemarker{text}; & \\
+\end{threecolumns}
+\medskip
+
+\noindent
+All markers plotted with
+‘\code{mark options = \{draw = blue, fill = yellow\}}’ and
+‘\code{mark color = pink}’.  You can rotate makers with, e.g.,
+‘\code{mark options = \{rotate = 90\}}’.
+
+\optindex{mark}
+\begin{meta}
+\defopt{\implicit{/tikz/}mark} = \default{*}\|\metavar{marker}
+\end{meta}
+Use \metavar{marker}.
+
+\optindex{mark size}
+\begin{meta}
+\defopt{\implicit{/tikz/}mark size} = \default{2pt}\|\metavar{dimension}
+\end{meta}
+Marker size, \metavar{dimension} is either the radius or about half
+the width or height.
+
+\optindex{mark repeat}
+\begin{meta}
+\defopt{\implicit{/tikz/}mark repeat} = \default{1}\|\metavar{integer}
+\end{meta}
+Draw a marker at every \metavar{integer}${}^{\rm th}$ sample.
+
+\optindex{mark phase}
+\begin{meta}
+\defopt{\implicit{/tikz/}mark phase} = \default{1}\|\metavar{integer}
+\end{meta}
+Draw the first marker at the \metavar{integer}${}^{\rm th}$ sample;
+\metavar{integer} is one based.
+
+\optindex{mark indices}
+\begin{meta}
+\defopt{\implicit{/tikz/}mark indices} = \default{\{\}}\|\{\metavar{comma-separated list of integers}\}
+\end{meta}
+Explicit sample indices for drawing markers.
+\metavar{comma-separated list of integers} can contain \code{...}
+expressions, for example ‘\code{mark indices = \{1, 2, ..., 7\}}’.
+
+\styindex{every mark}
+\begin{meta}
+\defsty{\implicit{/tikz/}every mark}
+\end{meta}
+This style is applied before drawing a marker.
+
+\optindex{mark options}
+\begin{meta}
+\defopt{\implicit{/tikz/}mark options} = \{\metavar{options}\}
+\end{meta}
+Redefine ‘\code{every mark}’ so that it sets \metavar{options}.
+
+\optindex{no markers}
+\begin{meta}
+\defsty{\implicit{/pgfplots/}no markers}
+\end{meta}
+Disable markers; even for cycle lists that contain markers.
+
+\optindex{mark color}
+\begin{meta}
+\defopt{\implicit{/pgf/}mark color} = \default{white}\|\metavar{color}
+\end{meta}
+Additional fill color for \code{halfcircle}, \code{halfcircle*},
+\code{halfdiamond*}, and \code{halfsquare*} markers.
+
+\optindex{text mark}
+\begin{meta}
+\defopt{\implicit{/pgf/}text mark} = \default{p}\|\metavar{text}
+\end{meta}
+Define the text for ‘\code{mark = text}’.
+
+\optindex{text mark as node}
+\begin{meta}
+\defopt{\implicit{/pgf/}text mark as node} = \default{false}\|true
+\end{meta}
+Whether or not to draw text markers as nodes.
+
+\optindex{text mark style}
+\begin{meta}
+\defopt{\implicit{/pgf/}text mark style} = \{\metavar{options}\}
+\end{meta}
+Customize the appearance of text markers.
+When ‘\code{text mark as node}’ is true,
+‘\code{text mark style}’ are \code{\\node} options.  Otherwise,
+‘\code{text mark style}’ are \code{\\pgftext} options.
+
+
+\section{Colors}
+
+Color support is provided by the \code{xcolor} package.
+Standard color names:
+
+\begin{multicols}{4}
+\qrcolor{black} \\
+\qrcolor{darkgray} \\
+\qrcolor{gray} \\
+\qrcolor{lightgray} \\
+\qrcolor{white} \\
+\qrcolor{red} \\
+\qrcolor{cyan} \\
+\qrcolor{brown} \\
+\qrcolor{orange} \\
+\qrcolor{teal} \\
+\qrcolor{green} \\
+\qrcolor{magenta} \\
+\qrcolor{lime} \\
+\qrcolor{pink} \\
+\qrcolor{violet} \\
+\qrcolor{blue} \\
+\qrcolor{yellow} \\
+\qrcolor{olive} \\
+\qrcolor{purple} \\
+\hskip 8.4pt\enskip\code{none}
+\end{multicols}
+
+\optindex{color}
+\begin{meta}
+\defopt{\implicit{/tikz/}color} = \metavar{color}
+\end{meta}
+Set the color for drawing and filling.  You can omit the option key if
+\metavar{color} is a color name.
+
+\optindex{draw}
+\optindex{fill}
+\begin{meta}
+\defopt{\implicit{/tikz/}draw} = \metavar{color}
+\defopt{\implicit{/tikz/}fill} = \metavar{color}
+\end{meta}
+Set the color for drawing or filling respectively.  You can use
+\code{none} as \metavar{color} to disable drawing or filling.
+
+\begin{meta}
+\\definecolor\{\metavar{name}\}\{\metavar{model}\}\{\metavar{spec}\}
+\metavar{model}\=rgb\|cmy\|cmyk\|hsb\|Hsb\|tHsb\|gray\|RGB\|HSB\|Gray\|HTML\wrap\|wave
+\metavar{\code{rgb} spec}\=\(x\),\,\(x\),\,\(x\)
+\metavar{\code{cmy} spec}\=\(x\),\,\(x\),\,\(x\)
+\metavar{\code{cmyk} spec}\=\(x\),\,\(x\),\,\(x\),\,\(x\)
+\metavar{\code{hsb} spec}\=\(x\),\,\(x\),\,\(x\)
+\metavar{\code{Hsb} spec}\=\(H\),\,\(x\),\,\(x\)
+\metavar{\code{tHsb} spec}\=\(H\),\,\(x\),\,\(x\)
+\metavar{\code{gray} spec}\=\(x\)
+\metavar{\code{RGB} spec}\=\(L\),\,\(L\),\,\(L\)
+\metavar{\code{HSB} spec}\=\(M\),\,\(M\),\,\(M\)
+\metavar{\code{Gray} spec}\=\(N\)
+\metavar{\code{HTML} spec}\=\([\code{000000}\sub{\rm16},\,\code{FFFFFF}\sub{\rm16}]\)
+\metavar{\code{wave} spec}\=\([363,\,814]\)
+\end{meta}
+$x=[0,\,1]$,
+$H=[0,\,360]$,
+$L=[0,\,255]\cap\mathbb{Z}$,
+$M=[0,\,240]\cap\mathbb{Z}$, and
+$N=[0,\,15]\cap\mathbb{Z}$.
+All colors are defined in the sRGB color space.
+\acronym{hsb} is a synonym for \acronym{hsl}.
+
+%% qr-body.tex ends here

@@ -1,0 +1,387 @@
+#! /bin/bash
+
+## pdf-crop --- remove margins from PDF pages.
+
+# Copyright (C) 2018 Ralph Schleicher
+
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+#
+#    * Redistributions of source code must retain the above copyright
+#      notice, this list of conditions and the following disclaimer.
+#
+#    * Redistributions in binary form must reproduce the above copyright
+#      notice, this list of conditions and the following disclaimer in
+#      the documentation and/or other materials provided with the
+#      distribution.
+#
+#    * Neither the name of the copyright holder nor the names of its
+#      contributors may be used to endorse or promote products derived
+#      from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+# "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+# LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+# FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE
+# COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+# INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+# BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+# LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+# CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+# LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+# ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+
+## Code:
+
+# Sed script for deleting a leading X.
+X='s,^X,,'
+
+# Sed script for deleting the directory part of a file name.
+prefix='s,^.*/,,'
+
+# Sed script for deleting the file name extension.
+suffix='s,\.[^.]*$,,'
+
+# Short program invocation name (without directory).
+prog=$(echo "X$0" | sed -e "$X" -e "$prefix")
+
+# Version information.
+version_info="\
+pdf-crop 1.0
+
+Copyright (C) 2018 Ralph Schleicher
+
+This program is free software and supplied as it is.  There is NO
+WARRANTY; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR
+PURPOSE."
+
+# Help text.
+help_text="\
+Usage: $prog [OPTION...] FILENAME...
+
+Remove margins from PDF pages.
+
+Options:
+  --bounding-box    Print bounding box only, don't crop.
+  --high-resolution, --no-high-resolution
+                    Whether or not to print the bounding box in high
+                    resolution.  Disabled by default.
+  -w, --width DIMEN
+  -h, --height DIMEN
+                    Total width and height of the cropped page.
+                    Argument DIMEN has to be a TeX dimension.  Default
+                    is zero, i.e. the width and height of the bounding
+                    box including the margins.
+  -l, --left-margin DIMEN
+  -b, --bottom-margin DIMEN
+  -r, --right-margin DIMEN
+  -t, --top-margin DIMEN
+                    Extra space to be added at the left, bottom, right,
+                    and top edge of the bounding box.  Argument DIMEN
+                    has to be a TeX dimension.  Default is zero.
+  -a, --anchor ANCHOR
+                    Anchor position for aligning the page contents.
+		    This option only applies if the total width or
+		    height is greater than the actual width and
+		    height.  Argument ANCHOR is either ‘north-west’,
+		    ‘north’, ‘north-east’, ‘west’, ‘center’, ‘centre’,
+		    ‘east’, ‘south-west’, ‘south’, ‘south-east’, or
+		    ‘nw’, ‘n’, ‘ne’, ‘w’, ‘c’, ‘e’, ‘sw’, ‘s’, ‘se’
+		    respectively.  Abbreviations are permitted.
+		    Default is ‘center’.
+  --backup, --no-backup
+                    Create backup files.  Disabled by default.
+
+Report bugs to <rs@ralph-schleicher.de>."
+
+# Ghostscript interpreter.
+gs="/usr/bin/gs -q -dSAFER -dNOPAUSE -dBATCH"
+
+# Program options.
+action=crop
+high_res=no
+page_width=0
+page_height=0
+left_margin=0
+bottom_margin=0
+right_margin=0
+top_margin=0
+horiz_align=center
+vert_align=center
+backup=no
+
+# Process command line arguments.
+prev=
+
+while [ $# -gt 0 ]
+do
+    arg=$1
+
+    # If the previous option needs an argument, assign it.
+    if [ -n "$prev" ]
+    then
+	case $arg in
+	  -*)
+	    echo "$prog: option ‘$prev’ requires an argument" >&2
+	    echo "Try ‘$0 --help’ for more information." >&2
+	    exit 1
+	    ;;
+	esac
+	case $prev in
+	  --width)
+	    page_width=$(ps-points "$arg" || exit 1)
+	    ;;
+	  --height)
+	    page_height=$(ps-points "$arg" || exit 1)
+	    ;;
+	  --left-margin)
+	    left_margin=$(ps-points "$arg" || exit 1)
+	    ;;
+	  --bottom-margin)
+	    bottom_margin=$(ps-points "$arg" || exit 1)
+	    ;;
+	  --right-margin)
+	    right_margin=$(ps-points "$arg" || exit 1)
+	    ;;
+	  --top-margin)
+	    top_margin=$(ps-points "$arg" || exit 1)
+	    ;;
+	  --anchor)
+	    case $arg in
+	      north-west | north-wes | north-we | north-w | nw)
+		horiz_align=left
+		vert_align=top
+		;;
+	      north | n)
+		horiz_align=center
+		vert_align=top
+		;;
+	      north-east | north-eas | north-ea | north-e | ne)
+		horiz_align=right
+		vert_align=top
+		;;
+	      west | wes | we | w)
+		horiz_align=left
+		vert_align=center
+		;;
+	      center | centre | cente | centr | cent | cen | ce | c)
+		horiz_align=center
+		vert_align=center
+		;;
+	      east | eas | ea | e)
+		horiz_align=right
+		vert_align=center
+		;;
+	      south-west | south-wes | south-we | south-w | sw)
+		horiz_align=left
+		vert_align=bottom
+		;;
+	      south | s)
+		horiz_align=center
+		vert_align=bottom
+		;;
+	      south-east | south-eas | south-ea | south-e | se)
+		horiz_align=right
+		vert_align=bottom
+		;;
+	      *)
+		echo "$prog: unknown anchor position ‘$arg’" >&2
+		echo "Try ‘$0 --help’ for more information." >&2
+		exit 1
+		;;
+	    esac
+	    ;;
+	esac
+	prev=
+    else
+	case $arg in
+	  --bounding-box | --bounding-bo | --bounding-b | --bounding- | --bounding | --boundin | --boundi | --bound | --boun | --bou)
+	    action=bounding-box
+	    ;;
+	  --high-resolution | --high-resolutio | --high-resoluti | --high-resolut | --high-resolu | --high-resol | --high-reso | --high-res | --high-re | --high-r | --high- | --high | --hig | --hi)
+	    high_res=yes
+	    ;;
+	  --no-high-resolution | --no-high-resolutio | --no-high-resoluti | --no-high-resolut | --no-high-resolu | --no-high-resol | --no-high-reso | --no-high-res | --no-high-re | --no-high-r | --no-high- | --no-high | --no-hig | --no-hi | --no-h)
+	    high_res=no
+	    ;;
+	  -w | --width | --widt | --wid | --wi | --w)
+	    prev=--width
+	    ;;
+	  -h | --height | --heigh | --heig | --hei | --he)
+	    prev=--height
+	    ;;
+	  -l | --left-margin | --left-margi | --left-marg | --left-mar | --left-ma | --left-m | --left- | --left | --lef | --le | --l)
+	    prev=--left-margin
+	    ;;
+	  -b | --bottom-margin | --bottom-margi | --bottom-marg | --bottom-mar | --bottom-ma | --bottom-m | --bottom- | --bottom | --botto | --bott | --bot)
+	    prev=--bottom-margin
+	    ;;
+	  -r | --right-margin | --right-margi | --right-marg | --right-mar | --right-ma | --right-m | --right- | --right | --righ | --rig | --ri | --r)
+	    prev=--right-margin
+	    ;;
+	  -t | --top-margin | --top-margi | --top-marg | --top-mar | --top-ma | --top-m | --top- | --top | --to | --t)
+	    prev=--top-margin
+	    ;;
+	  -a | --anchor | --ancho | --anch | --anc | --an | --a)
+	    prev=--anchor
+	    ;;
+	  --backup | --backu | --back | --bac)
+	    backup=yes
+	    ;;
+	  --no-backup | --no-backu | --no-back | --no-bac | --no-ba | --no-b)
+	    backup=no
+	    ;;
+	  --)
+	    break
+	    ;;
+	  -*)
+	    echo "$prog: unrecognized option ‘$arg’" >&2
+	    echo "Try ‘$0 --help’ for more information." >&2
+	    exit 1
+	    ;;
+	  *)
+	    break
+	    ;;
+	esac
+    fi
+    shift
+done
+
+case $action in
+  crop)
+    high_res=yes
+    ;;
+esac
+
+# Determine page bounding box.
+# Return result in variable BOX.
+bounding-box ()
+{
+    local input=$1
+
+    if [ $high_res = no ]
+    then
+	box=$($gs -sDEVICE=bbox -f "$input" 2>&1 |
+	      grep '^%%BoundingBox:' |
+	      sed 's/%%BoundingBox: *//')
+    else
+	box=$($gs -sDEVICE=bbox -f "$input" 2>&1 |
+	      grep '^%%HiResBoundingBox:' |
+	      sed 's/%%HiResBoundingBox: *//')
+    fi
+}
+
+# Process arguments.
+for input
+do
+    case $action in
+      bounding-box)
+	bounding-box "$input"
+	if [ $# -gt 1 ]
+	then
+	    echo "$input:" $box
+	else
+	    echo $box
+	fi
+	;;
+
+      crop)
+	bounding-box "$input"
+
+	l=$(echo $box | awk '{print $1}')
+	b=$(echo $box | awk '{print $2}')
+	r=$(echo $box | awk '{print $3}')
+	t=$(echo $box | awk '{print $4}')
+
+	# Add margins.
+	l=$(echo "scale=7; $l - $left_margin"   | bc)
+	b=$(echo "scale=7; $b - $bottom_margin" | bc)
+	r=$(echo "scale=7; $r + $right_margin"  | bc)
+	t=$(echo "scale=7; $t + $top_margin"    | bc)
+
+	# Minimum width and height.
+	w=$(echo "scale=7; $r - $l" | bc)
+	h=$(echo "scale=7; $t - $b" | bc)
+
+	# Actual width and height.
+	W=$page_width
+	H=$page_height
+
+	if [ X$(echo "0 == $W" | bc) = X1 ]
+	then
+	    W=$w
+	fi
+	if [ X$(echo "0 == $H" | bc) = X1 ]
+	then
+	    H=$h
+	fi
+
+	# Remaining space.
+	x=$(echo "scale=7; $W - $w" | bc)
+	y=$(echo "scale=7; $H - $h" | bc)
+
+	if [ X$(echo "0 > $x" | bc) != X0 ]
+	then
+	    echo "$input: warning: page width is too small" 2>&1
+	fi
+	if [ X$(echo "0 > $y" | bc) != X0 ]
+	then
+	    echo "$input: warning: page height is too small" 2>&1
+	fi
+
+	case $horiz_align in
+	  left)
+	    x=0
+	    ;;
+	  center)
+	    x=$(echo "scale=7; $x / 2" | bc)
+	    ;;
+	  right)
+	    ;;
+	esac
+	case $vert_align in
+	  top)
+            ;;
+	  center)
+	    y=$(echo "scale=7; $y / 2" | bc)
+	    ;;
+	  bottom)
+	    y=0
+	    ;;
+	esac
+
+	# Crop box coordinates.
+	L=$(echo "scale=7; $l - $x" | bc)
+	B=$(echo "scale=7; $b - $y" | bc)
+	R=$(echo "scale=7; $L + $W" | bc)
+	T=$(echo "scale=7; $B + $H" | bc)
+
+	ver=$(head -1 "$input" | sed -e 's/^%PDF-//')
+	if echo "X$ver" | egrep -q -e '^X[1-9][0-9]*\.[0-9]+$'
+	then
+	    compat=-dCompatibilityLevel=$ver
+	else
+	    compat=-dCompatibilityLevel=1.3
+	fi
+
+	output=$(tempfile -d . -s .pdf -m 644) || exit 1
+	trap "rm -f $output" HUP INT QUIT KILL TERM EXIT
+
+	$gs -sOutputFile=$output -sDEVICE=pdfwrite $compat \
+	    -c "[/CropBox [$L $B $R $T] /PAGES pdfmark" -f "$input"
+
+	rm -f "$input~"
+	mv "$input" "$input~"
+	mv "$output" "$input"
+
+	if [ $backup = no ]
+	then
+	    rm -f "$input~"
+	fi
+	;;
+    esac
+done
+
+## pdf-crop ends here
