@@ -1,0 +1,69 @@
+%% qr.tex  -*- TeX-master: "qr.tex" -*-
+
+% Copyright (C) 2018 Ralph Schleicher
+
+% Permission is granted to copy, distribute, and/or modify this document
+% under the terms of the GNU Free Documentation License, Version 1.3 or
+% any later version published by the Free Software Foundation; with no
+% Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+%
+% You should have received a copy of the GNU Free Documentation License
+% along with this document.  If not, see <https://www.gnu.org/licenses/>.
+
+%% Code:
+
+% These colors are perceptually uniform, i.e., the primary colors
+% red, green, and blue have similar lightness in the CIE L*a*b*
+% color space.  Likewise for the secondary colors cyan, magenta
+% and yellow.
+\definecolor{unired}{RGB}{216, 47, 0}
+\definecolor{uniorange}{RGB}{220, 118, 0}
+\definecolor{uniyellow}{RGB}{216, 171, 0}
+\definecolor{unilawn}{RGB}{125, 151, 0}
+\definecolor{unigreen}{RGB}{0, 124, 0}
+\definecolor{unisea}{RGB}{0, 172, 155}
+\definecolor{unicyan}{RGB}{39, 208, 255}
+\definecolor{unisky}{RGB}{0, 157, 255}
+\definecolor{uniblue}{RGB}{39, 84, 255}
+\definecolor{univiolet}{RGB}{181, 101, 255}
+\definecolor{unimagenta}{RGB}{255, 131, 255}
+\definecolor{unirose}{RGB}{255, 54, 135}
+% Gray levels with the same lightness as the primary, secondary,
+% and tertiary colors.
+\definecolor{unigray1}{RGB}{108, 108, 108}
+\definecolor{unigray2}{RGB}{182, 182, 182}
+\definecolor{unigray3}{RGB}{145, 145, 145}
+
+\def\qrcolor#1{%
+\leavevmode\hbox{%
+\begin{tikzpicture}[
+  x = 4pt,
+  y = 4pt,
+]
+\draw[
+  fill = #1,
+]
+(0, 0) rectangle (2, 1);
+\end{tikzpicture}
+\enskip\code{#1}}}
+
+\begin{multicols}{4}
+\qrcolor{unired} \\
+\qrcolor{uniorange} \\
+\qrcolor{uniyellow} \\
+\qrcolor{unilawn} \\
+\qrcolor{unigreen} \\
+\qrcolor{unisea} \\
+\qrcolor{unicyan} \\
+\qrcolor{unisky} \\
+\qrcolor{uniblue} \\
+\qrcolor{univiolet} \\
+\qrcolor{unimagenta} \\
+\qrcolor{unirose} \\
+\qrcolor{unigray1} \\
+\qrcolor{unigray3} \\
+\qrcolor{unigray2} \\
+\qrcolor{unigray3}
+\end{multicols}
+
+%% qr-galley.tex ends here
