@@ -78,6 +78,9 @@ line-width-semithick.tikz \
 line-width-thick.tikz \
 line-width-very-thick.tikz \
 line-width-ultra-thick.tikz \
+line-cap-butt.tikz \
+line-cap-rect.tikz \
+line-cap-round.tikz \
 line-join-miter.tikz \
 line-join-bevel.tikz \
 line-join-round.tikz \
