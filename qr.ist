@@ -1,0 +1,16 @@
+%% qr.ist --- makeindex(1) style file.
+
+% Write group headers using uppercase letters.
+headings_flag 1
+
+heading_prefix "  \\indexgroup{"
+heading_suffix "}"
+
+symhead_positive "\\indexsymhead"
+numhead_positive "\\indexnumhead"
+
+delim_0 "\\indexpagesep"
+delim_1 "\\indexpagesep"
+delim_2 "\\indexpagesep"
+
+%% qr.ist ends here
