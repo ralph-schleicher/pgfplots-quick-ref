@@ -20,7 +20,7 @@ integrate your contributions if you decide to share it.
 
 The Moebius strip image on the front-cover is a modified version of
 the [example](http://pgfplots.org/tikz/examples/moebius-strip) found
-on the [PGFPlots](http://pgfplots.org) home page.
+on [PGFPlots.net](http://pgfplots.org).
 
 The layout of the manual is inspired by the
 [Common Lisp Quick Reference](http://clqr.boundp.org/index.html).
