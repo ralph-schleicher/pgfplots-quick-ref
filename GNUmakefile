@@ -103,4 +103,11 @@ clean:
 distclean: clean
 	rm -f $(BOOKS)
 
+.PHONY: sync
+sync: README.html
+	~/src/github/github.sh pgfplots-quick-ref
+
+README.html: README.md
+	markdown $< > $@~ && mv -f $@~ $@
+
 ## GNUmakefile ends here
