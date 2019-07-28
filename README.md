@@ -32,6 +32,9 @@ Prerequisites: A TeX Live installation with pdflatex(1) and pdfjam(1).
 And GNU Make, Bash, Ghostscript, pdfinfo(1), sed(1) with ‘-E’ option,
 and the standard POSIX commands and utilities.
 
+The scripts in the ‘bin’ subdirectory should be in your program search
+path.
+
 Create all external images in the ‘tikz’ folder:
 
      $ make -C tikz pdf
