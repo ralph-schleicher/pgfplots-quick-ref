@@ -3,10 +3,10 @@
 I started this project in 2018 when one of my kids had to prepare some
 scientific plots in TeX.  TikZ/PGF and PGFPlots are huge packages and
 a handy quick reference manual for looking up options and syntax is
-nice to have.  The manuals are far from complete but still useful.
+nice to have.  The manual is far from complete but still useful.
 Therefore, I decided to publish it so that others can benefit.
 
-The manuals are available in several formats.  Either choose A4 paper
+The manual is available in several formats.  Either choose A4 paper
 size or letter paper size.  The ‘booklet’ version can be printed
 two-sided (long edge), folded in half lengthwise, and stapled or sewed
 along the spine.  The ‘serial’ version can be printed, too.  The
