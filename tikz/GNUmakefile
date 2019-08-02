@@ -313,6 +313,21 @@ color-White.tikz \
 color-WhiteSmoke.tikz \
 color-Yellow.tikz \
 color-YellowGreen.tikz \
+color-unired.tikz \
+color-uniorange.tikz \
+color-uniyellow.tikz \
+color-unilawn.tikz \
+color-unigreen.tikz \
+color-unisea.tikz \
+color-unicyan.tikz \
+color-unisky.tikz \
+color-uniblue.tikz \
+color-univiolet.tikz \
+color-unimagenta.tikz \
+color-unirose.tikz \
+color-unigray1.tikz \
+color-unigray2.tikz \
+color-unigray3.tikz \
 $(nil)
 
 tikz_FILES = $(BUILT_SOURCES)
@@ -888,6 +903,37 @@ color-WhiteSmoke.tikz: color.tikz.in
 color-Yellow.tikz: color.tikz.in
 	sed -e 's/#1/$(patsubst color-%.tikz,%,$@)/g' $< > $@
 color-YellowGreen.tikz: color.tikz.in
+	sed -e 's/#1/$(patsubst color-%.tikz,%,$@)/g' $< > $@
+
+color-unired.tikz: color.tikz.in
+	sed -e 's/#1/$(patsubst color-%.tikz,%,$@)/g' $< > $@
+color-uniorange.tikz: color.tikz.in
+	sed -e 's/#1/$(patsubst color-%.tikz,%,$@)/g' $< > $@
+color-uniyellow.tikz: color.tikz.in
+	sed -e 's/#1/$(patsubst color-%.tikz,%,$@)/g' $< > $@
+color-unilawn.tikz: color.tikz.in
+	sed -e 's/#1/$(patsubst color-%.tikz,%,$@)/g' $< > $@
+color-unigreen.tikz: color.tikz.in
+	sed -e 's/#1/$(patsubst color-%.tikz,%,$@)/g' $< > $@
+color-unisea.tikz: color.tikz.in
+	sed -e 's/#1/$(patsubst color-%.tikz,%,$@)/g' $< > $@
+color-unicyan.tikz: color.tikz.in
+	sed -e 's/#1/$(patsubst color-%.tikz,%,$@)/g' $< > $@
+color-unisky.tikz: color.tikz.in
+	sed -e 's/#1/$(patsubst color-%.tikz,%,$@)/g' $< > $@
+color-uniblue.tikz: color.tikz.in
+	sed -e 's/#1/$(patsubst color-%.tikz,%,$@)/g' $< > $@
+color-univiolet.tikz: color.tikz.in
+	sed -e 's/#1/$(patsubst color-%.tikz,%,$@)/g' $< > $@
+color-unimagenta.tikz: color.tikz.in
+	sed -e 's/#1/$(patsubst color-%.tikz,%,$@)/g' $< > $@
+color-unirose.tikz: color.tikz.in
+	sed -e 's/#1/$(patsubst color-%.tikz,%,$@)/g' $< > $@
+color-unigray1.tikz: color.tikz.in
+	sed -e 's/#1/$(patsubst color-%.tikz,%,$@)/g' $< > $@
+color-unigray2.tikz: color.tikz.in
+	sed -e 's/#1/$(patsubst color-%.tikz,%,$@)/g' $< > $@
+color-unigray3.tikz: color.tikz.in
 	sed -e 's/#1/$(patsubst color-%.tikz,%,$@)/g' $< > $@
 
 .PHONY: clean
