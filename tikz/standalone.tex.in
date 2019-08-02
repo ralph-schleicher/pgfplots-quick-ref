@@ -8,37 +8,12 @@
 \pgfplotsset{compat=1.16}
 \usetikzlibrary{plotmarks}
 
-\makeatletter
+\def\onecolumnwidth{255.6bp}
+\def\twocolumnswidth{118.8bp}
+\def\threecolumnswidth{73.2bp}
+\def\fourcolumnswidth{50.4bp}
 
-% External TikZ pictures must have the same size if we want
-% to use them for A4 paper and letter paper.  A4 paper has
-% the smaller width (105 mm).
-\begingroup
-% Page width is 105 mm - (2 × 18 bp + 6 bp), see ‘qr-paper-a4.tex’.
-\dimen@i=105mm
-\advance\dimen@i by -42bp
-% Column gap.
-\dimen@ii=18bp
-% One column, 256.59645pt, 255.63781bp.
-\xdef\onecolumnwidth{\the\dimen@i}
-% Two columns, 119.26448pt, 118.81891bp.
-\dimen@\dimen@i
-\advance\dimen@ by -\dimen@ii
-\divide\dimen@ by\tw@
-\xdef\twocolumnswidth{\the\dimen@}
-% Three columns, 73.48715pt, 73.2126bp.
-\dimen@\dimen@i
-\advance\dimen@ by -2\dimen@ii
-\divide\dimen@ by\thr@@
-\xdef\threecolumnswidth{\the\dimen@}
-% Four columns, 50.5985pt, 50.40946bp.
-\dimen@\dimen@i
-\advance\dimen@ by -3\dimen@ii
-\divide\dimen@ by 4
-\xdef\fourcolumnswidth{\the\dimen@}
-\endgroup
-
-\makeatother
+\input ../qr-macros.tex
 
 \pagestyle{empty}
 \begin{document}
