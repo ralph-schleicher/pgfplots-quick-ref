@@ -196,5 +196,10 @@
   \StrSubstitute{#1}{@}{-}[\qrdashed]%
   \StrSubstitute{#1}{@}{ }[\qrspaced]%
   \leavevmode\hbox{\includegraphics{tikz/color-\qrdashed.pdf}\enskip\code\qrspaced}}
+\def\qrcolormap#1{%
+  \StrSubstitute{#1}{@}{-}[\qrdashed]%
+  \StrSubstitute{#1}{@}{ }[\qrspaced]%
+  \overlay{\hfil\includegraphics{tikz/colormap-\qrdashed.pdf}\hskip 0.5in\relax}%
+  \defsty{\implicit{/pgfplots/}colormap/\qrspaced}}
 
 %% qr-macros.tex ends here

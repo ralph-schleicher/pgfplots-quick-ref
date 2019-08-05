@@ -1,0 +1,5 @@
+\pgfplotscolormapifdefined{#1}{\relax}{\pgfplotsset{colormap/#1}}
+\pgfplotscolormaptoshadingspec{#1}{\threecolumnswidth}\result
+\def\tempb{\pgfdeclarehorizontalshading{tempshading}{6bp}}
+\expandafter\tempb\expandafter{\result}
+\pgfuseshading{tempshading}

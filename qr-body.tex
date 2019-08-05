@@ -1017,6 +1017,9 @@ When ‘\code{text mark as node}’ is true,
 ‘\code{text mark style}’ are \code{\\pgftext} options.
 
 
+\chapter{Color Data}
+
+
 \section{Colors}
 
 Color support is provided by the \code{xcolor} package.
@@ -1061,6 +1064,7 @@ Set the color for drawing and filling.  You can omit the option key if
 Set the color for drawing or filling respectively.  You can use
 \code{none} as \metavar{color} to disable drawing or filling.
 
+\texindex{definecolor}
 \begin{meta}
 \\definecolor\{\metavar{name}\}\{\metavar{model}\}\{\metavar{spec}\}
 \metavar{model}\=rgb\|cmy\|cmyk\|hsb\|Hsb\|tHsb\|gray\|RGB\|HSB\|Gray\|HTML\wrap\|wave
@@ -1127,5 +1131,96 @@ Likewise for the secondary colors cyan, magenta and yellow.  They also
 satisfy the \acronym{RGB} and \acronym{CMY} color models.  The gray
 levels have the same lightness as the primary, secondary, and tertiary
 colors.
+
+
+\section{Color Maps}
+
+\optindex{colormap name}
+\begin{meta}
+\defopt{\implicit{/pgfplots/}colormap name} = \default{hot}\|\metavar{color map name}
+\end{meta}
+Select a predefined color map.
+
+\substyindex{colormap/}{viridis}
+\substyindex{colormap/}{hot}
+\substyindex{colormap/}{hot2}
+\substyindex{colormap/}{cool}
+\substyindex{colormap/}{blackwhite}
+\substyindex{colormap/}{greenyellow}
+\substyindex{colormap/}{redyellow}
+\substyindex{colormap/}{jet}
+\substyindex{colormap/}{bluered}
+\substyindex{colormap/}{violet}
+\begin{meta}
+\qrcolormap{viridis}
+\qrcolormap{hot}
+\qrcolormap{hot2}
+\qrcolormap{cool}
+\qrcolormap{blackwhite}
+\qrcolormap{greenyellow}
+\qrcolormap{redyellow}
+\qrcolormap{jet}
+\qrcolormap{bluered}
+\qrcolormap{violet}
+\end{meta}
+Standard styles which install the corresponding color map.
+
+\substyindex{colormap/}{gray}
+\substyindex{colormap/}{bone}
+\substyindex{colormap/}{copper}
+\substyindex{colormap/}{copper2}
+\substyindex{colormap/}{sepia}
+\substyindex{colormap/}{spring}
+\substyindex{colormap/}{summer}
+\substyindex{colormap/}{autumn}
+\substyindex{colormap/}{winter}
+\substyindex{colormap/}{cold}
+\substyindex{colormap/}{temp}
+\substyindex{colormap/}{thermal}
+\substyindex{colormap/}{earth}
+\substyindex{colormap/}{pink}
+\substyindex{colormap/}{bled}
+\substyindex{colormap/}{hsv}
+\substyindex{colormap/}{hsv2}
+\substyindex{colormap/}{bright}
+\substyindex{colormap/}{pastel}
+\begin{meta}
+\qrcolormap{gray}
+\qrcolormap{bone}
+\qrcolormap{copper}
+\qrcolormap{copper2}
+\qrcolormap{sepia}
+\qrcolormap{spring}
+\qrcolormap{summer}
+\qrcolormap{autumn}
+\qrcolormap{winter}
+\qrcolormap{cold}
+\qrcolormap{temp}
+\qrcolormap{thermal}
+\qrcolormap{earth}
+\qrcolormap{pink}
+\qrcolormap{bled}
+\qrcolormap{hsv}
+\qrcolormap{hsv2}
+\qrcolormap{bright}
+\qrcolormap{pastel}
+\end{meta}
+Styles provided by \code{\\usepgfplotslibrary\{colormaps\}} which
+install the corresponding color map.
+
+\optindex{color of colormap}
+\begin{meta}
+\defopt{\implicit{/pgfplots/}color of colormap} = \metavar{value} \group{of \metavar{color map}}\?
+\end{meta}
+Set the color for drawing and filling from a color map.
+\metavar{value} is a number in the closed interval $[0, 1000]$.
+\metavar{color map} is either a color map name or a color map style.
+
+\optindex{const color of colormap}
+\begin{meta}
+\defopt{\implicit{/pgfplots/}const color of colormap} = \metavar{value}\wrap\group{of \metavar{color map}}\?
+\end{meta}
+Like \code{color of colormap} but with piecewise constant
+interpolation.
 
 %% qr-body.tex ends here

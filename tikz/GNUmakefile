@@ -328,6 +328,35 @@ color-unirose.tikz \
 color-unigray1.tikz \
 color-unigray2.tikz \
 color-unigray3.tikz \
+colormap-viridis.tikz \
+colormap-hot.tikz \
+colormap-hot2.tikz \
+colormap-cool.tikz \
+colormap-blackwhite.tikz \
+colormap-greenyellow.tikz \
+colormap-redyellow.tikz \
+colormap-jet.tikz \
+colormap-bluered.tikz \
+colormap-violet.tikz \
+colormap-gray.tikz \
+colormap-bone.tikz \
+colormap-copper.tikz \
+colormap-copper2.tikz \
+colormap-sepia.tikz \
+colormap-spring.tikz \
+colormap-summer.tikz \
+colormap-autumn.tikz \
+colormap-winter.tikz \
+colormap-cold.tikz \
+colormap-temp.tikz \
+colormap-thermal.tikz \
+colormap-earth.tikz \
+colormap-pink.tikz \
+colormap-bled.tikz \
+colormap-hsv.tikz \
+colormap-hsv2.tikz \
+colormap-bright.tikz \
+colormap-pastel.tikz \
 $(nil)
 
 tikz_FILES = $(BUILT_SOURCES)
@@ -935,6 +964,65 @@ color-unigray2.tikz: color.tikz.in
 	sed -e 's/#1/$(patsubst color-%.tikz,%,$@)/g' $< > $@
 color-unigray3.tikz: color.tikz.in
 	sed -e 's/#1/$(patsubst color-%.tikz,%,$@)/g' $< > $@
+
+colormap-viridis.tikz: colormap.tikz.in
+	sed -e 's/#1/$(patsubst colormap-%.tikz,%,$@)/g' $< > $@
+colormap-hot.tikz: colormap.tikz.in
+	sed -e 's/#1/$(patsubst colormap-%.tikz,%,$@)/g' $< > $@
+colormap-hot2.tikz: colormap.tikz.in
+	sed -e 's/#1/$(patsubst colormap-%.tikz,%,$@)/g' $< > $@
+colormap-cool.tikz: colormap.tikz.in
+	sed -e 's/#1/$(patsubst colormap-%.tikz,%,$@)/g' $< > $@
+colormap-blackwhite.tikz: colormap.tikz.in
+	sed -e 's/#1/$(patsubst colormap-%.tikz,%,$@)/g' $< > $@
+colormap-greenyellow.tikz: colormap.tikz.in
+	sed -e 's/#1/$(patsubst colormap-%.tikz,%,$@)/g' $< > $@
+colormap-redyellow.tikz: colormap.tikz.in
+	sed -e 's/#1/$(patsubst colormap-%.tikz,%,$@)/g' $< > $@
+colormap-jet.tikz: colormap.tikz.in
+	sed -e 's/#1/$(patsubst colormap-%.tikz,%,$@)/g' $< > $@
+colormap-bluered.tikz: colormap.tikz.in
+	sed -e 's/#1/$(patsubst colormap-%.tikz,%,$@)/g' $< > $@
+colormap-violet.tikz: colormap.tikz.in
+	sed -e 's/#1/$(patsubst colormap-%.tikz,%,$@)/g' $< > $@
+colormap-gray.tikz: colormap.tikz.in
+	sed -e 's/#1/$(patsubst colormap-%.tikz,%,$@)/g' $< > $@
+colormap-bone.tikz: colormap.tikz.in
+	sed -e 's/#1/$(patsubst colormap-%.tikz,%,$@)/g' $< > $@
+colormap-copper.tikz: colormap.tikz.in
+	sed -e 's/#1/$(patsubst colormap-%.tikz,%,$@)/g' $< > $@
+colormap-copper2.tikz: colormap.tikz.in
+	sed -e 's/#1/$(patsubst colormap-%.tikz,%,$@)/g' $< > $@
+colormap-sepia.tikz: colormap.tikz.in
+	sed -e 's/#1/$(patsubst colormap-%.tikz,%,$@)/g' $< > $@
+colormap-spring.tikz: colormap.tikz.in
+	sed -e 's/#1/$(patsubst colormap-%.tikz,%,$@)/g' $< > $@
+colormap-summer.tikz: colormap.tikz.in
+	sed -e 's/#1/$(patsubst colormap-%.tikz,%,$@)/g' $< > $@
+colormap-autumn.tikz: colormap.tikz.in
+	sed -e 's/#1/$(patsubst colormap-%.tikz,%,$@)/g' $< > $@
+colormap-winter.tikz: colormap.tikz.in
+	sed -e 's/#1/$(patsubst colormap-%.tikz,%,$@)/g' $< > $@
+colormap-cold.tikz: colormap.tikz.in
+	sed -e 's/#1/$(patsubst colormap-%.tikz,%,$@)/g' $< > $@
+colormap-temp.tikz: colormap.tikz.in
+	sed -e 's/#1/$(patsubst colormap-%.tikz,%,$@)/g' $< > $@
+colormap-thermal.tikz: colormap.tikz.in
+	sed -e 's/#1/$(patsubst colormap-%.tikz,%,$@)/g' $< > $@
+colormap-earth.tikz: colormap.tikz.in
+	sed -e 's/#1/$(patsubst colormap-%.tikz,%,$@)/g' $< > $@
+colormap-pink.tikz: colormap.tikz.in
+	sed -e 's/#1/$(patsubst colormap-%.tikz,%,$@)/g' $< > $@
+colormap-bled.tikz: colormap.tikz.in
+	sed -e 's/#1/$(patsubst colormap-%.tikz,%,$@)/g' $< > $@
+colormap-hsv.tikz: colormap.tikz.in
+	sed -e 's/#1/$(patsubst colormap-%.tikz,%,$@)/g' $< > $@
+colormap-hsv2.tikz: colormap.tikz.in
+	sed -e 's/#1/$(patsubst colormap-%.tikz,%,$@)/g' $< > $@
+colormap-bright.tikz: colormap.tikz.in
+	sed -e 's/#1/$(patsubst colormap-%.tikz,%,$@)/g' $< > $@
+colormap-pastel.tikz: colormap.tikz.in
+	sed -e 's/#1/$(patsubst colormap-%.tikz,%,$@)/g' $< > $@
 
 .PHONY: clean
 clean:
