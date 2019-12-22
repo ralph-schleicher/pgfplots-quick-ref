@@ -165,10 +165,10 @@ values of trigonometric functions are in degree angle.
 \code{min}, \code{max}.
 
 \item[Pseudo-Random Number Functions (Uniform Distribution)]
-\code{rnd}~($[0,1]\cap\mathbb{R}$),
-\code{rand}~($[-1,1]\cap\mathbb{R}$),
-\code{random($n$)}~($[1,n]\cap\mathbb{N}$),
-\code{random($m$,$n$)}~($[m,n]\cap\mathbb{Z}$).
+\code{rnd}~($[0,\,1]\cap\mathbb{R}$),
+\code{rand}~($[-1,\,1]\cap\mathbb{R}$),
+\code{random($n$)}~($[1,\,n]\cap\mathbb{N}$),
+\code{random($m$,$n$)}~($[m,\,n]\cap\mathbb{Z}$).
 \endgroup
 
 
@@ -420,7 +420,7 @@ plots.  Say \code{\{\metavar{x-expression}\}} if
 \defopt{domain y} = \default{\metavar{empty}}\|\metavar{\(y\sub1\)}:\metavar{\(y\sub2\)}
 \end{meta}
 Define the argument domain for the x-axis to the closed interval
-$[x_1, x_2]$.  Likewise for the y-axis for \acronym{3D} plots.  If
+$[x_1,\,x_2]$.  Likewise for the y-axis for \acronym{3D} plots.  If
 \code{domain y} is empty, use the value of \code{domain}.
 
 \optindex{samples}
@@ -650,8 +650,8 @@ Render coordinates as horizontal or vertical lines respectively.
 \defopt{quiver} = \{\metavar{quiver options}\}
 \end{meta}
 Render coordinates as small arrows.  The origin of the arrow is at the
-final point coordinates $(x,y,z)$ and the direction and length of the
-arrow is defined by the direction coordinates $(u,v,w)$.
+final point coordinates $(x,\,y,\,z)$ and the direction and length of the
+arrow is defined by the direction coordinates $(u,\,v,\,w)$.
 
 The \code{quiver/} prefix can be omitted
 within \metavar{quiver options}.
@@ -1089,48 +1089,48 @@ $N=[0,\,15]\cap\mathbb{Z}$.
 All colors are defined in the sRGB color space.
 \acronym{hsb} is a synonym for \acronym{hsl}.
 
-\begin{multicols}{4}
-\qrcolor{unired} \\
-\qrcolor{uniorange} \\
-\qrcolor{uniyellow} \\
-\qrcolor{unilawn} \\
-\qrcolor{unigreen} \\
-\qrcolor{unisea} \\
-\qrcolor{unicyan} \\
-\qrcolor{unisky} \\
-\qrcolor{uniblue} \\
-\qrcolor{univiolet} \\
-\qrcolor{unimagenta} \\
-\qrcolor{unirose} \\
-\qrcolor{unigray1} \\
-\qrcolor{unigray3} \\
-\qrcolor{unigray2} \\
-\qrcolor{unigray3}
-\end{multicols}
-
-\begin{meta}
-\\definecolor\{unired\}\{HTML\}\{D82F00\}
-\\definecolor\{uniorange\}\{HTML\}\{DC7500\}
-\\definecolor\{uniyellow\}\{HTML\}\{D8AB00\}
-\\definecolor\{unilawn\}\{HTML\}\{7D9700\}
-\\definecolor\{unigreen\}\{HTML\}\{007C00\}
-\\definecolor\{unisea\}\{HTML\}\{00AC9B\}
-\\definecolor\{unicyan\}\{HTML\}\{27D0FF\}
-\\definecolor\{unisky\}\{HTML\}\{009EFF\}
-\\definecolor\{uniblue\}\{HTML\}\{2754FF\}
-\\definecolor\{univiolet\}\{HTML\}\{B565FF\}
-\\definecolor\{unimagenta\}\{HTML\}\{FF83FF\}
-\\definecolor\{unirose\}\{HTML\}\{FF3687\}
-\\definecolor\{unigray1\}\{HTML\}\{6C6C6C\}
-\\definecolor\{unigray2\}\{HTML\}\{B6B6B6\}
-\\definecolor\{unigray3\}\{HTML\}\{919191\}
-\end{meta}
-These colors are perceptually uniform, i.e., the primary colors red,
-green, and blue have similar lightness in the CIE L*a*b* color space.
-Likewise for the secondary colors cyan, magenta and yellow.  They also
-satisfy the \acronym{RGB} and \acronym{CMY} color models.  The gray
-levels have the same lightness as the primary, secondary, and tertiary
-colors.
+%\begin{multicols}{4}
+%\qrcolor{unired} \\
+%\qrcolor{uniorange} \\
+%\qrcolor{uniyellow} \\
+%\qrcolor{unilawn} \\
+%\qrcolor{unigreen} \\
+%\qrcolor{unisea} \\
+%\qrcolor{unicyan} \\
+%\qrcolor{unisky} \\
+%\qrcolor{uniblue} \\
+%\qrcolor{univiolet} \\
+%\qrcolor{unimagenta} \\
+%\qrcolor{unirose} \\
+%\qrcolor{unigray1} \\
+%\qrcolor{unigray3} \\
+%\qrcolor{unigray2} \\
+%\qrcolor{unigray3}
+%\end{multicols}
+%
+%\begin{meta}
+%\\definecolor\{unired\}\{HTML\}\{D82F00\}
+%\\definecolor\{uniorange\}\{HTML\}\{DC7500\}
+%\\definecolor\{uniyellow\}\{HTML\}\{D8AB00\}
+%\\definecolor\{unilawn\}\{HTML\}\{7D9700\}
+%\\definecolor\{unigreen\}\{HTML\}\{007C00\}
+%\\definecolor\{unisea\}\{HTML\}\{00AC9B\}
+%\\definecolor\{unicyan\}\{HTML\}\{27D0FF\}
+%\\definecolor\{unisky\}\{HTML\}\{009EFF\}
+%\\definecolor\{uniblue\}\{HTML\}\{2754FF\}
+%\\definecolor\{univiolet\}\{HTML\}\{B565FF\}
+%\\definecolor\{unimagenta\}\{HTML\}\{FF83FF\}
+%\\definecolor\{unirose\}\{HTML\}\{FF3687\}
+%\\definecolor\{unigray1\}\{HTML\}\{6C6C6C\}
+%\\definecolor\{unigray2\}\{HTML\}\{B6B6B6\}
+%\\definecolor\{unigray3\}\{HTML\}\{919191\}
+%\end{meta}
+%These colors are perceptually uniform, i.e., the primary colors red,
+%green, and blue have similar lightness in the CIE L*a*b* color space.
+%Likewise for the secondary colors cyan, magenta and yellow.  They also
+%satisfy the \acronym{RGB} and \acronym{CMY} color models.  The gray
+%levels have the same lightness as the primary, secondary, and tertiary
+%colors.
 
 
 \section{Color Maps}
@@ -1213,7 +1213,7 @@ install the corresponding color map.
 \defopt{\implicit{/pgfplots/}color of colormap} = \metavar{value} \group{of \metavar{color map}}\?
 \end{meta}
 Set the color for drawing and filling from a color map.
-\metavar{value} is a number in the closed interval $[0, 1000]$.
+\metavar{value} is a number in the closed interval $[0,\,1000]$.
 \metavar{color map} is either a color map name or a color map style.
 
 \optindex{const color of colormap}
