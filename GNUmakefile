@@ -70,7 +70,7 @@ $(job)-%.pdf: $(job_SOURCES) qr-paper-%.stamp
 qr-paper-%.stamp: qr-paper-%.tex
 	cp $< qr-paper.tex
 	rm -f qr-paper-*.stamp
-	echo time stamp > $@
+	echo time-stamp > $@
 
 # pdfbook(1), pdfnup(1), and psnup(1) are too smart,
 # only ‘pdfjam --nup 2x1’ works as expected.
